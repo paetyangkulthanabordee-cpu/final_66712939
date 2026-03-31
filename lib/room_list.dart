@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_booking/home_page.dart';
+import 'package:flutter_booking/login_admin.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'booking_page.dart';
 import 'booking_list.dart';
-import 'Home_page.dart' hide HomePage;
+import 'home_page.dart' hide HomePage;
 
 //////////////////////////////////////////////////////////////
 // API URL
@@ -102,44 +103,68 @@ return Scaffold(
   // APPBAR
   ////////////////////////////////////////////////////////
 
-  appBar: AppBar(
-    title: const Text("อุปกรณ์"),
-    actions: [
-      Text("Welcome . ${widget.name}"),
-          const SizedBox(width: 28 ,),
-      IconButton(
-        icon: const Icon(Icons.list_alt),
-        tooltip: "ดูอุปกรณ์ทั้งหมด",
-        onPressed: () {
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const BookingList(),
-            ),
-          );
-
-        },
+ backgroundColor: const Color.fromARGB(255, 232, 237, 238), // ✅ ใส่ตรงนี้
+      appBar: AppBar(
+        title: const Text('หน้าแรก'),
+        backgroundColor: const Color.fromARGB(255, 174, 175, 99),
+        foregroundColor: Colors.white, // ✅ สีไอคอน + ข้อความ
       ),
-      IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
 
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ),
-                (route) => false,
-              );
+      // 🔹 Drawer = เมนูด้านข้าง (เลื่อนจากซ้าย)
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero, // เอาช่องว่างด้านบนออก
+          children: [
+            // 🔸 Header ของ Drawer (ส่วนหัว)
+            const UserAccountsDrawerHeader(
+              accountName: Text('ธนบดี แพทยังกุล'), // ชื่อผู้ใช้
+              accountEmail: Text('66712939'), // อีเมล
+              currentAccountPicture: CircleAvatar(
+                child: Icon(Icons.person), // ไอคอนโปรไฟล์
+              ),
+            ),
 
-            },
-          ),
+            // 🔸 เมนู: หน้าแรก
+            ListTile(
+              leading: const Icon(Icons.home), // ไอคอน
+              title: const Text('หน้าแรก'), // ข้อความเมนู
+              onTap: () {
+                Navigator.pop(context); // ปิด Drawer
+              },
+            ),
 
-            const SizedBox(height: 10),
+            // 🔸 เมนู: ไปหน้า Page 1
+            ListTile(
+              leading: const Icon(Icons.login),
+              title: const Text('เข้าสู่ระบบ'),
+              onTap: () {
+                Navigator.pop(context); // ปิด Drawer ก่อน
 
-    ],
-  ),
+                // 🔹 เปิดหน้าใหม่ (Page1)
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginAdmin()),
+                );
+              },
+            ),
+
+            // 🔸 เมนู: ไปหน้า Page 2
+            ListTile(
+              leading: const Icon(Icons.shop),
+              title: const Text('อุปกรณ์'),
+              onTap: () {
+                Navigator.pop(context); // ปิด Drawer ก่อน
+
+                // 🔹 เปิดหน้าใหม่ (Page2)
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginAdmin()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
 
   ////////////////////////////////////////////////////////
   // BODY
